@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+
+<head>
+    <title>Inicio</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+        integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-auth.js"></script>
+    
+    
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+</head>
+
+<body>
+
+    <script>
+
+        //response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+        //const FirebaseAuth = require('firebaseauth'); // or import FirebaseAuth from 'firebaseauth';
+        //const firebase = new FirebaseAuth(process.env.FIREBASE_API_KEY);
+
+        var config = {
+            apiKey: "AIzaSyB-IIo_f4Gc-0dy26AUdZRb-CjfyG5j4Wg",
+            authDomain: "kachrisma-73ae2.firebaseapp.com",
+            databaseURL: "https://kachrisma-73ae2.firebaseio.com/",
+            storageBucket: "kachrisma-73ae2.appspot.com"
+        };
+
+        firebase.initializeApp(config);
+
+        function IngresoGoogle(){
+
+            console.log("ENTRO");
+
+            
+            if(!firebase.auth().currentUser){
+
+                console.log("ENTRO2");
+                var provider = new firebase.auth.GoogleAuthProvider();
+
+                provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+                
+                
+                firebase.auth().signInWithPopup(provider).then(function(result) {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    console.log("ENTRO3");
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+                    // ...
+                }).catch(function(error) {
+                // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                    console.log("ENTRO ERROR");
+                    console.log(errorCode);
+                    if(errorCode=='auth/account-exists-with-different-credential'){
+                        alert ('Es el mismo usuario');
+                    }
+        
+                });
+                
+
+            }else{
+                firebase.auth().signOut();
+            }
+            
+        }
+        
+    </script>
+
+    
+    
+    
+    <div class="container">
+     
+        <h1 class="jumbotron" style = "color:#ec9e45; background:rgb(36, 53, 71); text-align: center;">Bienvenidos a Kachrisma
+                <h4 class="jumbotron" style = "color:#88f87d; background:rgb(36, 53, 71); text-align: center;">
+                        Manual de uso
+                        <br>
+                        <br>
+                        Si buscas una API que te permita: AGREGAR, IMPORTAR Y BUSCAR FUNCIONES 
+                        <br> <br>
+                        ¡ ESTÁS EN EL LUGAR CORRECTO ! 
+                        <br> <br>
+                        Sigue estos pasos según lo que desees hacer y tendrás lo que necesites
+             </h4>
+        </h1>        
+        
+        
+        <img src="portadita.jpg" class="img-thumbnail">
+
+        
+
+        
+        <!-- Main Content -->
+        <div class="container">
+            <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-preview">
+                    <h2 class="post-title">
+                    <img src="1parte.PNG" alt="100x40" class="img-thumbnail" width="800" height="800">
+                    Para la busqueda de funciones
+                    </h2>
+                    <h4 class="post-subtitle">
+                    Si deseas buscar una función ya existente:
+                    <br> <br>
+                    1. Ingresa el dato a buscar en el espacio correspondiente
+                    <br>
+                    2. Selecciona la manera en la que se quiera buscar la funciòn dentro de la base de datos
+                    <br>
+                        Ya sea por: Usuario, id, descripcion, etiqueta o el nombre de la funciones
+                        <br>
+                    3. Una vez realizada su búsqueda el sistema le mostrá la función encontrada según el termino de búsqueda definido
+                    <br>
+                    </h4>
+                </div>
+                <hr>
+
+
+                <div class="post-preview">
+                    <h2 class="post-title">
+                    <img src="2parte.PNG" alt="100x40" class="img-thumbnail" width="800" height="800">
+                    Para la carga de funciones
+                    </h2>
+                    <h4 class="post-subtitle">
+                    Si lo que deseas es guardar/cargar funciones a la base de datos:
+                    <br> <br>
+                    1. Debes completar los siguientes datos: nombre de usuario, el nombre de la función, el ID de la funcióm, la etiqueta, una descripción, el ID de la función a la que depende y el código de la función a crear.
+                    <br>
+                    2. "Añador función" añadirá la función ya específica, sin embargo puedes cargar nuevos datos si deseas cargar mas funciones
+                    <br>
+                    3. Una vez creadas las funciones que deseas el botón "Cargar" cargará todas las funciones creadas a la base de datos.
+                    </h4>
+                </div>
+                <hr>
+                
+            </div>
+            </div>
+        </div>
+     
+        <h4 class="jumbotron" style = "color:#88f87d; background:rgb(36, 53, 71); text-align: center;">Inicia Sesión y descubre lo que Kachrisma tiene para ofrecerte:</h4>
+        <button onclick="IngresoGoogle()">Iniciar Sesión</button>
+       
+        <div id="button"><a href="dashboard.html">Ingresar a la página</a></div>
+
+        <h4 class="jumbotron" style = "color:#88f87d; background:rgb(36, 53, 71); text-align: center;">Kachrisma©2019 - Versión 1.0</h4>
+    </div>
+
+ 
+</body>
+</html>

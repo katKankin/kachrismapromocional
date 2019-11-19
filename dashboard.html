@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+
+<head>
+    <title>Dashboard</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+        integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
+
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/mode/javascript/javascript.js"></script>
+    <script src="codemirror/addon/edit/closetag.js"></script>
+    <link href="codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="codemirror/theme/dracula.css" rel="stylesheet" />
+     
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+
+                <h1 class="jumbotron" style = "color:#88f87d; background:rgb(36, 53, 71) ">Búsqueda de funciones</h1>
+                <table id="insertaDatosTable" class="table table-striped">
+                        <thead>
+                                <tr>
+                                    <th>Ingrese el dato a buscar</th>  
+                                    <th style="width:80px;"></th>
+                                    <th>
+                                        <input id="datoBuscar" type="text" class="form-control" />
+                                    </th>                                         
+                                </tr>
+  
+                                <tr>   
+                                    <th>Seleccione la manera de realizar la búsqueda</th>                  
+                                    <th style="width:80px;">
+                                    </th>                         
+                                    <th>
+                                        <button id="btn-buscarPorUsuario" class="btn btn-default" onclick="buscarPorUsuario(this)">Usuario</button>
+                                        <button id="btn-buscarPorId" class="btn btn-default" onclick="buscarPorId(this)">Id</button>
+                                        <button id="btn-buscarPorDescripcion" class="btn btn-default" onclick="buscarPorDescripcion(this)">Descripción</button>
+                                        <button id="btn-buscarPorEtiqueta" class="btn btn-default" onclick="buscarPorEtiqueta(this)">Etiqueta</button>
+                                        <button id="btn-buscarPorFuncion" class="btn btn-default" onclick="buscarPorFuncion(this)">Nombre de función</button>
+                                    </th>
+                                </tr>                                                                   
+                            </thead>
+                            <tbody></tbody>
+                </table>
+                
+                <p class="lead" style = "color:#9db49b; background:rgb(70, 80, 92); text-align: center;">Resultados de la búsqueda</p>                            
+      
+                <table id="funcionesTableName" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre de función</th>                          
+                            <th>Usuario</th>
+                            <th style="width:80px;">
+                            <th>Id</th>   
+                            <th style="width:80px;">
+                            <th>Etiqueta</th> 
+                            <th style="width:80px;">
+                            <th>Descripción</th>  
+                            <th style="width:80px;">
+                            <th>Link de exportación</th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                           
+                    </tbody>
+                </table>
+
+                <table id="funcionesTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>                          
+                            <th></th>
+                            <th style="width:80px;">
+                            <th></th>   
+                            <th style="width:80px;">
+                            <th></th> 
+                            <th style="width:80px;">
+                            <th></th>  
+                            <th style="width:80px;">
+                            <th></th>   
+                        </tr>
+                    </thead>
+                    <tbody>                          
+                    </tbody>
+                </table>
+
+        <h1 class="jumbotron" style = "color:#ec9e45; background:rgb(36, 53, 71)">Carga de funciones</h1> 
+
+        <table id="cargarTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Ingrese el nombre de usuario</th>  
+                        <th style="width:80px;"></th>
+                        <th>
+                            <input id="nombreUsuario" type="text" class="form-control" />
+                        </th>                                         
+                    </tr>
+                    <tr>
+                        <th>Ingrese el nombre de la función</th>  
+                        <th style="width:80px;"></th>
+                        <th>
+                            <input id="nombreFuncion" type="text" class="form-control" />
+                        </th>                                         
+                    </tr>
+                    <tr>
+                        <th>Ingrese el ID de la función</th>  
+                        <th style="width:80px;"></th>
+                        <th>
+                            <input id="idFuncion" type="text" class="form-control" />
+                        </th>                                         
+                    </tr>
+                    <tr>
+                        <th>Ingrese la etiqueta</th>  
+                        <th style="width:80px;"></th>
+                        <th>
+                            <input id="etiquetaFuncion" type="text" class="form-control" />
+                        </th>                                         
+                    </tr>
+                    <tr>
+                        <th>Ingrese una descripción</th>  
+                        <th style="width:80px;"></th>
+                        <th>
+                            <input id="descripcionFuncion" type="text" class="form-control" />
+                        </th>                                         
+                    </tr>
+                    <tr>
+                        <th>Ingrese el ID de la función que depende (0 si a ninguna)</th>  
+                        <th style="width:80px;"></th>
+                        <th>
+                            <input id="dependenciaFuncion" type="text" class="form-control" />
+                        </th>                                         
+                    </tr>
+                    <tr>
+                        <th>Ingrese el código</th>  
+                        <th style="width:80px;"></th>
+                                                              
+                    </tr>
+                    
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <textarea id="editor"></textarea>
+                    
+            <div class="col-sm-10" style="left:40%">
+                <button id="btn-añadeFuncion" class="btn btn-default" onclick="añadirFuncion(this)">Añadir función</button>                                  
+                <button id="btn-enviaFuncion" class="btn btn-default" onclick="enviaFuncion(this)">Cargar</button>                                        
+            </div>          
+       
+    </div>
+
+    <script src="main.js"></script>
+    <script src="funcion.js"></script>
+    
+</body>
+</html>
